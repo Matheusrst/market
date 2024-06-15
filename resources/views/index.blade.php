@@ -36,6 +36,7 @@
         <table class="table">
             <thead>
                 <tr>
+                <th>||</th>
                     <th>ID</th>
                     <th>||</th>
                     <th>Name</th>
@@ -47,12 +48,12 @@
                     <th>Stock</th>
                     <th>||</th>
                     <th>Action</th>
-                    <th>||</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($products as $product)
                     <tr>
+                    <th>||</th>
                         <td>{{ $product->id }}</td>
                         <th>||</th>
                         <td>{{ $product->name }}</td>
