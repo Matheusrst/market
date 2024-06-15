@@ -24,11 +24,13 @@
         @endif
 
         <div class="mb-3">
+        <th>||</th>
             <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
             <th>||</th>
             <a href="{{ route('users.showLoginForm') }}" class="btn btn-primary">Login</a>
             <th>||</th>
             <a href="{{ route('users.showRegistrationForm') }}" class="btn btn-secondary">Register</a>
+            <th>||</th>
         </div>
 
         <table class="table">
@@ -45,6 +47,7 @@
                     <th>Stock</th>
                     <th>||</th>
                     <th>Action</th>
+                    <th>||</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,11 +72,24 @@
                             @else
                                 <button class="btn btn-secondary" disabled>Out of Stock</button>
                             @endif
+                            <form id="delete-form-{{ $product->id }}" action="{{ route('products.destroy', $product->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+    <script>
+        function confirmDelete(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                document.getElementById('delete-form-' + productId).submit();
+            }
+        }
+    </script>
 </body>
 </html>
