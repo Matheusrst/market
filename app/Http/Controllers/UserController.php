@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('users.register');
+        return view('register');
     }
 
     public function register(Request $request)
@@ -31,9 +31,30 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        $user->password = bcrypt($request->password);
         $user->save();
 
-        return redirect()->route('users.showRegistrationForm')->with('success', 'User registered successfully!');
+        Auth::login($user);
+
+        return redirect()->route('products.index')->with('success', 'User registered and logged in successfully!');
+    }
+
+    public function showLoginForm()
+    {
+        return view('login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Autenticação bem-sucedida
+            return redirect()->route('products.index')->with('success', 'Logged in successfully!');
+        } else {
+            // Falha na autenticação
+            return redirect()->route('users.showLoginForm')->with('error', 'Invalid credentials, please try again.');
+        }
     }
 }
+

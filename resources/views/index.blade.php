@@ -23,6 +23,11 @@
             </div>
         @endif
 
+        <div class="mb-3">
+            <a href="{{ route('users.showLoginForm') }}" class="btn btn-primary">Login</a>
+            <a href="{{ route('users.showRegistrationForm') }}" class="btn btn-secondary">Register</a>
+        </div>
+
         <table class="table">
             <thead>
                 <tr>
