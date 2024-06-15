@@ -35,10 +35,15 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>||</th>
                     <th>Name</th>
+                    <th>||</th>
                     <th>Description</th>
+                    <th>||</th>
                     <th>Price</th>
+                    <th>||</th>
                     <th>Stock</th>
+                    <th>||</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -46,10 +51,15 @@
                 @foreach($products as $product)
                     <tr>
                         <td>{{ $product->id }}</td>
+                        <th>||</th>
                         <td>{{ $product->name }}</td>
+                        <th>||</th>
                         <td>{{ $product->description }}</td>
+                        <th>||</th>
                         <td>{{ $product->price }}</td>
+                        <th>||</th>
                         <td>{{ $product->stock }}</td>
+                        <th>||</th>
                         <td>
                             @if($product->stock > 0)
                                 <form action="{{ route('products.purchase', $product->id) }}" method="POST">
