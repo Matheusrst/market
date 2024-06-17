@@ -23,6 +23,15 @@
             </div>
         @endif
 
+        
+        @if (Auth::check())
+            <div class="alert alert-info mt-3">
+                Logged in as: {{ Auth::user()->name }} ({{ Auth::user()->email }}) <br>
+                Wallet Balance: ${{ Auth::user()->wallet }}
+            </div>
+        @endif
+        <th>|</th>
+
         <div class="mb-3">
         <th>||</th>
             <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
@@ -35,13 +44,6 @@
             <th>||</th>
         </div>
 
-        @if (Auth::check())
-            <div class="alert alert-info mt-3">
-                Logged in as: {{ Auth::user()->name }} ({{ Auth::user()->email }}) <br>
-                Wallet Balance: ${{ Auth::user()->wallet }}
-            </div>
-        @endif
-        <th>|</th>
         <table class="table">
             <thead>
                 <tr>
@@ -89,6 +91,7 @@
                                 <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">Delete</button>
                             </form>
                         </td>
+                        <th>||</th>
                     </tr>
                 @endforeach
             </tbody>
