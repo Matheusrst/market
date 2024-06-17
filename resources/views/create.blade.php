@@ -43,6 +43,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Add Product</button>
         </form>
+        <a href="{{ route('products.index') }}" class="btn btn-secondary">Return to Products</a>
     </div>
 </body>
 </html>

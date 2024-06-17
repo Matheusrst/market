@@ -30,7 +30,7 @@
                 Wallet Balance: ${{ Auth::user()->wallet }}
             </div>
         @endif
-        <th>|</th>
+        <th>.</th>
 
         <div class="mb-3">
         <th>||</th>
@@ -43,7 +43,7 @@
             <a href="{{ route('users.index') }}" class="btn btn-info">User Menu</a>
             <th>||</th>
         </div>
-
+        <th>.</th>
         <table class="table">
             <thead>
                 <tr>

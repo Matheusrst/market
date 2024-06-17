@@ -26,22 +26,35 @@
         <table class="table">
             <thead>
                 <tr>
+                    <td>||</td>
                     <th>ID</th>
+                    <td>||</td>
                     <th>Name</th>
+                    <td>||</td>
                     <th>Email</th>
+                    <td>||</td>
                     <th>Wallet</th>
+                    <td>||</td>
                     <th>Created At</th>
+                    <td>||</td>
                     <th>Actions</th>
+                    <td>||</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach($users as $user)
                     <tr>
+                    <td>||</td>
                         <td>{{ $user->id }}</td>
+                        <td>||</td>
                         <td>{{ $user->name }}</td>
+                        <td>||</td>
                         <td>{{ $user->email }}</td>
+                        <td>||</td>
                         <td>${{ $user->wallet }}</td>
+                        <td>||</td>
                         <td>{{ $user->created_at }}</td>
+                        <td>||</td>
                         <td>
                             <form action="{{ route('users.addFunds', $user->id) }}" method="POST" style="display: inline-block;">
                                 @csrf
@@ -53,11 +66,13 @@
                                 <input type="number" name="amount" step="0.01" min="0.01" max="{{ $user->wallet }}" placeholder="Amount" required>
                                 <button type="submit" class="btn btn-warning">Withdraw Funds</button>
                             </form>
+                            <td>||</td>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        <a href="{{ route('products.index') }}" class="btn btn-primary">Return to Products</a>
     </div>
 </body>
 </html>
