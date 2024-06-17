@@ -19,7 +19,7 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-Route::post('/products/{id}/purchase', [ProductController::class, 'purchase'])->name('products.purchase');
+Route::post('/products/{id}/purchase', [ProductController::class, 'purchase'])->name('products.purchase')->middleware('auth');
 
 Route::get('/', function () {
     return view('welcome');

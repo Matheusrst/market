@@ -23,13 +23,6 @@
             </div>
         @endif
 
-        @if (Auth::check())
-                <div class="alert alert-info mt-3">
-                    Logged in as: {{ Auth::user()->name }} ({{ Auth::user()->email }})
-                </div>
-            @endif
-            <th>|</th>
-
         <div class="mb-3">
         <th>||</th>
             <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
@@ -42,48 +35,55 @@
             <th>||</th>
         </div>
 
+        @if (Auth::check())
+            <div class="alert alert-info mt-3">
+                Logged in as: {{ Auth::user()->name }} ({{ Auth::user()->email }}) <br>
+                Wallet Balance: ${{ Auth::user()->wallet }}
+            </div>
+        @endif
+        <th>|</th>
         <table class="table">
             <thead>
                 <tr>
-                <td>||</td>
+                <th>||</th>
                     <th>ID</th>
-                    <td>||</td>
+                    <th>||</th>
                     <th>Name</th>
-                    <td>||</td>
+                    <th>||</th>
                     <th>Description</th>
-                    <td>||</td>
+                    <th>||</th>
                     <th>Price</th>
-                    <td>||</td>
+                    <th>||</th>
                     <th>Stock</th>
-                    <td>||</td>
+                    <th>||</th>
                     <th>Action</th>
-                    <td>||</td>
+                    <th>||</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($products as $product)
                     <tr>
-                    <td>||</td>
+                    <th>||</th>
                         <td>{{ $product->id }}</td>
-                        <td>||</td>
+                        <th>||</th>
                         <td>{{ $product->name }}</td>
-                        <td>||</td>
+                        <th>||</th>
                         <td>{{ $product->description }}</td>
-                        <td>||</td>
-                        <td>{{ $product->price }}</td>
-                        <td>||</td>
+                        <th>||</th>
+                        <td>${{ $product->price }}</td>
+                        <th>||</th>
                         <td>{{ $product->stock }}</td>
-                        <td>||</td>
+                        <th>||</th>
                         <td>
                             @if($product->stock > 0)
-                                <form action="{{ route('products.purchase', $product->id) }}" method="POST">
+                                <form action="{{ route('products.purchase', $product->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     <button type="submit" class="btn btn-primary">Buy</button>
                                 </form>
                             @else
                                 <button class="btn btn-secondary" disabled>Out of Stock</button>
                             @endif
-                            <form id="delete-form-{{ $product->id }}" action="{{ route('products.destroy', $product->id) }}" method="POST" style="display: inline-block;">
+                            <form id="delete-form-{{ $product->id }}" action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">Delete</button>

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Purchase;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -42,24 +44,38 @@ class ProductController extends Controller
     public function purchase($id)
     {
         $product = Product::findOrFail($id);
+        $user = Auth::user();
 
-        if ($product->stock > 0) {
-            // Decrementar o estoque dentro de uma transação para garantir a atomicidade
-            DB::transaction(function() use ($product) {
-                $product->stock -= 1;
-                $product->save();
-
-                // Registrar a compra sem associar a um usuário
-                Purchase::create([
-                    'product_id' => $product->id,
-                    // Outros campos adicionais, se necessário
-                ]);
-            });
-
-            return redirect()->route('products.index')->with('success', 'Product purchased successfully!');
-        } else {
-            return redirect()->route('products.index')->with('error', 'Product out of stock!');
+        if (!$user) {
+            Log::error('User is not authenticated.');
+            return redirect()->route('products.index')->with('error', 'User is not authenticated.');
         }
+
+        if ($user->wallet < $product->price) {
+            return redirect()->route('products.index')->with('error', 'Insufficient wallet balance to purchase this product.');
+        }
+
+        if ($product->stock <= 0) {
+            return redirect()->route('products.index')->with('error', 'Product is out of stock.');
+        }
+
+        $purchase = new Purchase();
+        $purchase->user_id = $user->id;
+        $purchase->product_id = $product->id;
+        $purchase->save();
+
+        $user->wallet -= $product->price;
+
+        if ($user->save()) {
+            Log::info('User wallet updated successfully.');
+        } else {
+            Log::error('Failed to update user wallet.');
+        }
+
+        $product->stock -= 1;
+        $product->save();
+
+        return redirect()->route('products.index')->with('success', 'Product purchased successfully!');
     }
 
     public function destroy(Product $product)
