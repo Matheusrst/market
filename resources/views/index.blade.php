@@ -23,6 +23,12 @@
             </div>
         @endif
 
+        @if (Auth::check())
+                <div class="alert alert-info mt-3">
+                    Logged in as: {{ Auth::user()->name }} ({{ Auth::user()->email }})
+                </div>
+            @endif
+
         <div class="mb-3">
         <th>||</th>
             <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
@@ -36,34 +42,35 @@
         <table class="table">
             <thead>
                 <tr>
-                <th>||</th>
+                <td>||</td>
                     <th>ID</th>
-                    <th>||</th>
+                    <td>||</td>
                     <th>Name</th>
-                    <th>||</th>
+                    <td>||</td>
                     <th>Description</th>
-                    <th>||</th>
+                    <td>||</td>
                     <th>Price</th>
-                    <th>||</th>
+                    <td>||</td>
                     <th>Stock</th>
-                    <th>||</th>
+                    <td>||</td>
                     <th>Action</th>
+                    <td>||</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach($products as $product)
                     <tr>
-                    <th>||</th>
+                    <td>||</td>
                         <td>{{ $product->id }}</td>
-                        <th>||</th>
+                        <td>||</td>
                         <td>{{ $product->name }}</td>
-                        <th>||</th>
+                        <td>||</td>
                         <td>{{ $product->description }}</td>
-                        <th>||</th>
+                        <td>||</td>
                         <td>{{ $product->price }}</td>
-                        <th>||</th>
+                        <td>||</td>
                         <td>{{ $product->stock }}</td>
-                        <th>||</th>
+                        <td>||</td>
                         <td>
                             @if($product->stock > 0)
                                 <form action="{{ route('products.purchase', $product->id) }}" method="POST">
