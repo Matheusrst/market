@@ -28,6 +28,7 @@
                     Logged in as: {{ Auth::user()->name }} ({{ Auth::user()->email }})
                 </div>
             @endif
+            <th>|</th>
 
         <div class="mb-3">
         <th>||</th>
@@ -36,6 +37,8 @@
             <a href="{{ route('users.showLoginForm') }}" class="btn btn-primary">Login</a>
             <th>||</th>
             <a href="{{ route('users.showRegistrationForm') }}" class="btn btn-secondary">Register</a>
+            <th>||</th>
+            <a href="{{ route('users.index') }}" class="btn btn-info">User Menu</a>
             <th>||</th>
         </div>
 

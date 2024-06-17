@@ -12,6 +12,9 @@ Route::post('/login', [UserController::class, 'login'])->name('users.login');
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
+Route::post('/users/{user}/add-funds', [UserController::class, 'addFunds'])->name('users.addFunds');
+Route::post('/users/{user}/withdraw-funds', [UserController::class, 'withdrawFunds'])->name('users.withdrawFunds');
+
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');

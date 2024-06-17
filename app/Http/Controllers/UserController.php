@@ -62,5 +62,30 @@ class UserController extends Controller
             return redirect()->route('users.showLoginForm')->with('error', 'Invalid credentials, please try again.');
         }
     }
+
+    public function addFunds(Request $request, User $user)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0.01',
+        ]);
+
+        $user->wallet += $request->input('amount');
+        $user->save();
+
+        return redirect()->route('users.index')->with('success', 'Funds added successfully!');
+    }
+
+    // Método para retirar fundos da carteira do usuário
+    public function withdrawFunds(Request $request, User $user)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0.01|max:' . $user->wallet,
+        ]);
+
+        $user->wallet -= $request->input('amount');
+        $user->save();
+
+        return redirect()->route('users.index')->with('success', 'Funds withdrawn successfully!');
+    }
 }
 

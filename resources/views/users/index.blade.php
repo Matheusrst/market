@@ -29,7 +29,9 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Wallet</th>
                     <th>Created At</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,7 +40,20 @@
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>${{ $user->wallet }}</td>
                         <td>{{ $user->created_at }}</td>
+                        <td>
+                            <form action="{{ route('users.addFunds', $user->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                <input type="number" name="amount" step="0.01" min="0.01" placeholder="Amount" required>
+                                <button type="submit" class="btn btn-success">Add Funds</button>
+                            </form>
+                            <form action="{{ route('users.withdrawFunds', $user->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                <input type="number" name="amount" step="0.01" min="0.01" max="{{ $user->wallet }}" placeholder="Amount" required>
+                                <button type="submit" class="btn btn-warning">Withdraw Funds</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
