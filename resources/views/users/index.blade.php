@@ -17,12 +17,6 @@
             </div>
         @endif
 
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
         <table class="table">
             <thead>
                 <tr>
@@ -78,6 +72,7 @@
                 </tr>
             </tbody>
         </table>
+
         <a href="{{ route('products.index') }}" class="btn btn-secondary">Return to Products</a>
     </div>
     <script src="{{ asset('js/app.js') }}"></script>

@@ -11,9 +11,19 @@ use Illuminate\Support\Facades\Hash as FacadesHash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth.user')->except(['index', 'showLoginForm', 'login', 'showRegistrationForm', 'register']);
+    }
+
     public function index()
     {
         $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
         return view('users.index', compact('user'));
     }
     

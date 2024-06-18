@@ -12,6 +12,8 @@ Route::post('/register', [UserController::class, 'register'])->name('users.regis
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('users.showLoginForm');
 Route::post('/login', [UserController::class, 'login'])->name('users.login');
 
+Route::middleware('auth.user')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
 //rotas do menu do usuario
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
@@ -43,6 +45,8 @@ Route::delete('/products/{product}', [ProductController::class, 'destroy'])->nam
 
 //rotas de compra de produto
 Route::post('/products/{id}/purchase', [ProductController::class, 'purchase'])->name('products.purchase')->middleware('auth');
+
+});
 
 Route::get('/', function () {
     return view('welcome');
