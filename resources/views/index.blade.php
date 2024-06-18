@@ -23,31 +23,19 @@
             </div>
         @endif
 
-        
-        @if (Auth::check())
-            <div class="alert alert-info mt-3">
-                Logged in as: {{ Auth::user()->name }} ({{ Auth::user()->email }}) <br>
-                Wallet Balance: ${{ Auth::user()->wallet }}
-            </div>
-        @endif
-        <th>.</th>
-
         <div class="mb-3">
-        <th>||</th>
             <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
             <th>||</th>
             <a href="{{ route('users.showLoginForm') }}" class="btn btn-primary">Login</a>
             <th>||</th>
             <a href="{{ route('users.showRegistrationForm') }}" class="btn btn-secondary">Register</a>
             <th>||</th>
-            <a href="{{ route('users.index') }}" class="btn btn-info">User Menu</a>
-            <th>||</th>
+            <a href="{{ route('users.index') }}" class="btn btn-info">User Menu</a> 
         </div>
-        <th>.</th>
+
         <table class="table">
             <thead>
                 <tr>
-                <th>||</th>
                     <th>ID</th>
                     <th>||</th>
                     <th>Name</th>
@@ -65,31 +53,27 @@
             <tbody>
                 @foreach($products as $product)
                     <tr>
-                    <th>||</th>
                         <td>{{ $product->id }}</td>
                         <th>||</th>
                         <td>{{ $product->name }}</td>
                         <th>||</th>
                         <td>{{ $product->description }}</td>
                         <th>||</th>
-                        <td>${{ $product->price }}</td>
+                        <td>{{ $product->price }}</td>
                         <th>||</th>
                         <td>{{ $product->stock }}</td>
                         <th>||</th>
                         <td>
                             @if($product->stock > 0)
-                                <form action="{{ route('products.purchase', $product->id) }}" method="POST" style="display:inline;">
+                                <form action="{{ route('products.purchase', $product->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     <button type="submit" class="btn btn-primary">Buy</button>
                                 </form>
                             @else
                                 <button class="btn btn-secondary" disabled>Out of Stock</button>
                             @endif
-                            <form id="delete-form-{{ $product->id }}" action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">Delete</button>
-                            </form>
+
+                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning" style="margin-left: 10px;">Edit</a>
                         </td>
                         <th>||</th>
                     </tr>
@@ -97,13 +81,6 @@
             </tbody>
         </table>
     </div>
-
-    <script>
-        function confirmDelete(productId) {
-            if (confirm('Are you sure you want to delete this product?')) {
-                document.getElementById('delete-form-' + productId).submit();
-            }
-        }
-    </script>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
