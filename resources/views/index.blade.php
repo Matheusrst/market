@@ -23,6 +23,14 @@
             </div>
         @endif
 
+        @if (Auth::check())
+            <div class="alert alert-info mt-3">
+                Logged in as: {{ Auth::user()->name }} ({{ Auth::user()->email }}) <br>
+                Wallet Balance: ${{ Auth::user()->wallet }}
+            </div>
+        @endif
+
+        <th>.</th>
         <div class="mb-3">
             <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
             <th>||</th>
@@ -32,6 +40,7 @@
             <th>||</th>
             <a href="{{ route('users.index') }}" class="btn btn-info">User Menu</a> 
         </div>
+        <th>.</th>
 
         <table class="table">
             <thead>
