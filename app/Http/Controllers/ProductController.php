@@ -97,6 +97,23 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
+    public function addToFavorites(Product $product)
+    {
+        $user = Auth::user();
+
+        // Verifica se o produto já está nos favoritos do usuário
+        if ($user->favorites()->where('product_id', $product->id)->exists()) {
+            return redirect()->back()->with('error', 'Product is already in favorites.');
+        }
+
+        // Adiciona o produto aos favoritos do usuário
+        $user->favorites()->create([
+            'product_id' => $product->id,
+        ]);
+
+        return redirect()->route('favorites.index')->with('success', 'Product added to favorites.');
+    }
+
     public function destroy(Product $product)
     {
         $product->delete();

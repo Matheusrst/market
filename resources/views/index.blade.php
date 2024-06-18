@@ -89,6 +89,7 @@
                 @endforeach
             </tbody>
         </table>
+        <a href="{{ route('favorites.index') }}" class="btn btn-info mt-3">View Favorites</a>
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

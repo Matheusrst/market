@@ -43,6 +43,11 @@
             <button type="submit" class="btn btn-primary">Update Product</button>
         </form>
 
+        <form action="{{ route('favorites.add', $product->id) }}" method="POST" style="margin-top: 20px;">
+            @csrf
+            <button type="submit" class="btn btn-success">Add to Favorites</button>
+        </form>
+        
         <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="margin-top: 10px;">
             @csrf
             @method('DELETE')

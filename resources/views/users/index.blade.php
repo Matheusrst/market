@@ -72,7 +72,10 @@
                 </tr>
             </tbody>
         </table>
-
+        <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-link nav-link">Logout</button>
+        </form>
         <a href="{{ route('products.index') }}" class="btn btn-secondary">Return to Products</a>
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
