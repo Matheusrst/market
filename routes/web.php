@@ -15,6 +15,9 @@ Route::post('/login', [UserController::class, 'login'])->name('users.login');
 //rotas do menu do usuario
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::put('/users{user}', [UserController::class, 'update'])->name('users.update');
+
 //rotas da carteira
 Route::post('/users/{user}/add-funds', [UserController::class, 'addFunds'])->name('users.addFunds');
 Route::post('/users/{user}/withdraw-funds', [UserController::class, 'withdrawFunds'])->name('users.withdrawFunds');

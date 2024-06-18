@@ -67,10 +67,12 @@
                         <td>||</td>
                     <td>{{ $user->created_at }}</td>
                     <td>||</td>
+                    <td>
+                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit Profile</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
-
         <a href="{{ route('products.index') }}" class="btn btn-secondary">Return to Products</a>
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
