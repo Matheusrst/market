@@ -69,6 +69,11 @@
                     <td>||</td>
                     <td>
                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit Profile</a>
+                        <a href="{{ route('users.destroy', $user->id) }}" class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('delete-user-form').submit();">Delete User</a>
+                        <form id="delete-user-form" action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: none;">
+                            @csrf
+                            @method('GET')
+                        </form>
                     </td>
                 </tr>
             </tbody>

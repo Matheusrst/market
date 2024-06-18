@@ -117,5 +117,25 @@ class UserController extends Controller
 
         return redirect()->route('users.edit', $user->id)->with('success', 'User updated successfully.');
     }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+
+//        if ($user->id === Auth::user()->id) {
+//          return redirect()->back()->with('error', 'You cannot delete yourself.');
+//        }
+
+        return view('users.confirm-delete', compact('user'));
+    }
+
+    public function delete($id)
+    {
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return redirect()->route('products.index')->with('success', 'User deleted successfully.');
+    }
 }
 

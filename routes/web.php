@@ -15,12 +15,17 @@ Route::post('/login', [UserController::class, 'login'])->name('users.login');
 //rotas do menu do usuario
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
+//rotas de edição de usuario
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::put('/users{user}', [UserController::class, 'update'])->name('users.update');
 
 //rotas da carteira
 Route::post('/users/{user}/add-funds', [UserController::class, 'addFunds'])->name('users.addFunds');
 Route::post('/users/{user}/withdraw-funds', [UserController::class, 'withdrawFunds'])->name('users.withdrawFunds');
+
+//rotas de exclusão de usuarios
+Route::get('/users/{id}/delete', [UserController::class, 'destroy'])->name('users.destroy');
+Route::delete('/users/{id}', [UserController::class, 'delete'])->name('users.delete');
 
 //rotas dos produtos
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
