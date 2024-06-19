@@ -42,41 +42,42 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product added successfully!');
     }
 
-    public function purchase($id)
+    public function purchase()
     {
-        $product = Product::findOrFail($id);
         $user = Auth::user();
+        $cartItems = $user->cartItems()->with('product')->get();
+        $total = $cartItems->sum(function ($cartItem) {
+            return $cartItem->product->price * $cartItem->quantity;
+        });
 
-        if (!$user) {
-            Log::error('User is not authenticated.');
-            return redirect()->route('products.index')->with('error', 'User is not authenticated.');
+        if ($user->wallet >= $total) {
+            foreach ($cartItems as $cartItem) {
+                $product = $cartItem->product;
+                
+                // Create a purchase record
+                Purchase::create([
+                    'user_id' => $user->id,
+                    'product_id' => $product->id,
+                    'quantity' => $cartItem->quantity,
+                    'total_price' => $product->price * $cartItem->quantity,
+                ]);
+
+                // Update product stock
+                $product->stock -= $cartItem->quantity;
+                $product->save();
+            }
+
+            // Deduct the total amount from user's wallet
+            $user->wallet -= $total;
+            $user->save();
+
+            // Clear the cart
+            $user->cartItems()->delete();
+
+            return redirect()->route('products.index')->with('success', 'Purchase completed successfully.');
         }
 
-        if ($user->wallet < $product->price) {
-            return redirect()->route('products.index')->with('error', 'Insufficient wallet balance to purchase this product.');
-        }
-
-        if ($product->stock <= 0) {
-            return redirect()->route('products.index')->with('error', 'Product is out of stock.');
-        }
-
-        $purchase = new Purchase();
-        $purchase->user_id = $user->id;
-        $purchase->product_id = $product->id;
-        $purchase->save();
-
-        $user->wallet -= $product->price;
-
-        if ($user->save()) {
-            Log::info('User wallet updated successfully.');
-        } else {
-            Log::error('Failed to update user wallet.');
-        }
-
-        $product->stock -= 1;
-        $product->save();
-
-        return redirect()->route('products.index')->with('success', 'Product purchased successfully!');
+        return redirect()->route('products.index')->with('error', 'Insufficient funds in wallet.');
     }
 
     public function edit(Product $product)

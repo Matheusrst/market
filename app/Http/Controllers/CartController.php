@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CartItem;
 use App\Models\Product;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,7 +31,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->route('cart.index')->with('success', 'Product added to cart.');
+        return redirect()->route('products.index')->with('success', 'Product added to cart.');
     }
 
     public function removeFromCart(CartItem $cartItem)
@@ -50,18 +51,30 @@ class CartController extends Controller
         if ($user->wallet >= $total) {
             foreach ($cartItems as $cartItem) {
                 $product = $cartItem->product;
+                
+                // Create a purchase record
+                Purchase::create([
+                    'user_id' => $user->id,
+                    'product_id' => $product->id,
+                    'quantity' => $cartItem->quantity,
+                    'total_price' => $product->price * $cartItem->quantity,
+                ]);
+
+                // Update product stock
                 $product->stock -= $cartItem->quantity;
                 $product->save();
             }
 
+            // Deduct the total amount from user's wallet
             $user->wallet -= $total;
             $user->save();
 
+            // Clear the cart
             $user->cartItems()->delete();
 
-            return redirect()->route('cart.index')->with('success', 'Purchase completed successfully.');
+            return redirect()->route('products.index')->with('success', 'Purchase completed successfully.');
         }
 
-        return redirect()->route('cart.index')->with('error', 'Insufficient funds in wallet.');
+        return redirect()->route('products.index')->with('error', 'Insufficient funds in wallet.');
     }
 }
