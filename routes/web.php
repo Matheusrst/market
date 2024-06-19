@@ -49,7 +49,8 @@ Route::post('/products/{id}/purchase', [ProductController::class, 'purchase'])->
 
 //rota de favoritos
 Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
-Route::post('/products/{product}/add-to-favorites', [ProductController::class, 'addToFavorites'])->name('favorites.add');
+Route::post('/favorites/add/{product}', [ProductController::class, 'addToFavorites'])->name('favorites.add');
+Route::delete('/favorites/remove/{product}', [ProductController::class, 'removeFromFavorites'])->name('favorites.remove');
 
 //rotas de logout
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');

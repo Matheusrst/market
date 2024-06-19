@@ -30,10 +30,17 @@
                 @else
                     <ul class="list-group">
                         @foreach ($favorites as $favorite)
-                            <li class="list-group-item">
-                                <h5>{{ $favorite->product->name }}</h5>
-                                <p>{{ $favorite->product->description }}</p>
-                                <p>Price: ${{ $favorite->product->price }}</p>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5>{{ $favorite->product->name }}</h5>
+                                    <p>{{ $favorite->product->description }}</p>
+                                    <p>Price: ${{ $favorite->product->price }}</p>
+                                </div>
+                                <form action="{{ route('favorites.remove', $favorite->product->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                </form>
                             </li>
                         @endforeach
                     </ul>

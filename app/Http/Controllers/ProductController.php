@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Purchase;
@@ -113,6 +114,23 @@ class ProductController extends Controller
 
         return redirect()->route('favorites.index')->with('success', 'Product added to favorites.');
     }
+
+    public function removeFromFavorites(Product $product)
+{
+    $user = Auth::user();
+
+    // Verifica se o produto está nos favoritos do usuário
+    $favorite = $user->favorites()->where('product_id', $product->id)->first();
+
+    if (!$favorite) {
+        return redirect()->back()->with('error', 'Product not found in favorites.');
+    }
+
+    // Remove o produto dos favoritos do usuário
+    $favorite->delete();
+
+    return redirect()->route('favorites.index')->with('success', 'Product removed from favorites.');
+}
 
     public function destroy(Product $product)
     {

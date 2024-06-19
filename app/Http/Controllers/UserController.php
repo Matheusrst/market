@@ -83,7 +83,7 @@ class UserController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('users.showLoginForm');
     }
 
     public function addFunds(Request $request, User $user)
