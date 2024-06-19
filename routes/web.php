@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\CartController;
 
 //rotas de registro
 Route::get('/register', [UserController::class, 'showRegistrationForm'])->name('users.showRegistrationForm');
@@ -46,6 +47,12 @@ Route::delete('/products/{product}', [ProductController::class, 'destroy'])->nam
 
 //rotas de compra de produto
 Route::post('/products/{id}/purchase', [ProductController::class, 'purchase'])->name('products.purchase')->middleware('auth');
+
+//rotas do carrinho de compras
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/{product}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::delete('/cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::post('/cart/purchase', [CartController::class, 'purchase'])->name('cart.purchase');
 
 //rota de favoritos
 Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');

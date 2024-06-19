@@ -39,6 +39,9 @@
             <a href="{{ route('users.showRegistrationForm') }}" class="btn btn-secondary">Register</a>
             <th>||</th>
             <a href="{{ route('users.index') }}" class="btn btn-info">User Menu</a> 
+            <th>||</th>
+            <a href="{{ route('cart.index') }}" class="btn btn-secondary">View Cart</a>
+            <th>||</th>
         </div>
         <th>.</th>
 
@@ -74,9 +77,9 @@
                         <th>||</th>
                         <td>
                             @if($product->stock > 0)
-                                <form action="{{ route('products.purchase', $product->id) }}" method="POST" style="display: inline-block;">
+                                <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-primary">Buy</button>
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
                                 </form>
                             @else
                                 <button class="btn btn-secondary" disabled>Out of Stock</button>

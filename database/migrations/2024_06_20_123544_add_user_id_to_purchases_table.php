@@ -9,15 +9,13 @@ class AddUserIdToPurchasesTable extends Migration
     public function up()
     {
         Schema::table('purchases', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->after('id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
         });
     }
 
     public function down()
     {
         Schema::table('purchases', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
             $table->dropColumn('user_id');
         });
     }
