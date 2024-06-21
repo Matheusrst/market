@@ -1,4 +1,4 @@
-<!-- resources/views/products/edit.blade.php -->
+<!-- view de edição de produtos -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

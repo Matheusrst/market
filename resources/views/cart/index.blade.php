@@ -1,4 +1,4 @@
-<!-- resources/views/cart/index.blade.php -->
+<!-- view da index do carrinho de compras -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

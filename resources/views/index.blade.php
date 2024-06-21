@@ -1,4 +1,4 @@
-<!-- resources/views/products/index.blade.php -->
+<!-- view da index dos produtos -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

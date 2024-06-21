@@ -1,4 +1,4 @@
-<!-- resources/views/favorites.blade.php -->
+<!-- view de produtos favoritos -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

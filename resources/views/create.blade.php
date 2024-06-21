@@ -1,4 +1,4 @@
-<!-- resources/views/products/create.blade.php -->
+<!-- view de criação de produtos -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

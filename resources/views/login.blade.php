@@ -1,4 +1,4 @@
-<!-- resources/views/users/login.blade.php -->
+<!-- view de registro de usuario -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

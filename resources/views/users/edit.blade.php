@@ -1,4 +1,4 @@
-<!-- resources/views/users/edit.blade.php -->
+<!-- view de edição de usuarios -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

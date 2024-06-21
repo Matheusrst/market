@@ -1,4 +1,4 @@
-<!-- resources/views/users/index.blade.php -->
+<!-- view da index do usuario -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
