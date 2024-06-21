@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
 
     /**
-     * run the migration
+     * envio dos produtos para o banco de dados
      *
      * @return void
      */

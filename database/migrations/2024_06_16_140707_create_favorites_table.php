@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * envio dos favoritos para o banco de dados
+     *
+     * @return void
      */
     public function up()
     {
@@ -20,7 +22,9 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * reverse the migration
+     *
+     * @return void
      */
     public function down()
     {

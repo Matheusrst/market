@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class AddWalletToUsersTable extends Migration
 {
     /**
-     * Run the migrations.
+     * adição da carteira para o usuario
      *
      * @return void
      */
