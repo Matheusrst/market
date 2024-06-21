@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * modelo dos favoritos para o banco de daodos
+ */
 class Favorite extends Model
 {
     use HasFactory;
