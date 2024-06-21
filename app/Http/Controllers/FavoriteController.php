@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
+    /**
+     * verificação e visualização dos favoritos do usuario logado
+     *
+     * @param Favorite $favorites
+     * @return void
+     */
     public function index(Favorite $favorites)
     {
         $user = Auth::user();

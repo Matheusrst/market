@@ -10,12 +10,23 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    /**
+     * autentificação de usuario para o carrinho
+     *
+     * @return void
+     */
     public function index()
     {
         $cartItems = Auth::user()->cartItems()->with('product')->get();
         return view('cart.index', compact('cartItems'));
     }
 
+    /**
+     * adição de produtos ao carrinho
+     *
+     * @param Product $product
+     * @return void
+     */
     public function addToCart(Product $product)
     {
         $user = Auth::user();
@@ -34,12 +45,23 @@ class CartController extends Controller
         return redirect()->route('products.index')->with('success', 'Product added to cart.');
     }
 
+    /**
+     * remoção de produtos do carrinho
+     *
+     * @param CartItem $cartItem
+     * @return void
+     */
     public function removeFromCart(CartItem $cartItem)
     {
         $cartItem->delete();
         return redirect()->route('cart.index')->with('success', 'Product removed from cart.');
     }
 
+    /**
+     * compra de produtos pelo carrinho
+     *
+     * @return void
+     */
     public function purchase()
     {
         $user = Auth::user();
@@ -52,7 +74,7 @@ class CartController extends Controller
             foreach ($cartItems as $cartItem) {
                 $product = $cartItem->product;
                 
-                // Create a purchase record
+                // salvar a compra no banco de dados
                 Purchase::create([
                     'user_id' => $user->id,
                     'product_id' => $product->id,
@@ -60,16 +82,16 @@ class CartController extends Controller
                     'total_price' => $product->price * $cartItem->quantity,
                 ]);
 
-                // Update product stock
+                // atualizar o estoque do produto
                 $product->stock -= $cartItem->quantity;
                 $product->save();
             }
 
-            // Deduct the total amount from user's wallet
+            // verificação dos fundos da certeira para efetuar a compra
             $user->wallet -= $total;
             $user->save();
 
-            // Clear the cart
+            // limpar o carrinho
             $user->cartItems()->delete();
 
             return redirect()->route('products.index')->with('success', 'Purchase completed successfully.');

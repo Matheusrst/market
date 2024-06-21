@@ -11,11 +11,19 @@ use Illuminate\Support\Facades\Hash as FacadesHash;
 
 class UserController extends Controller
 {
+    /**
+     * construct de verificação de usuarios
+     */
     public function __construct()
     {
         $this->middleware('auth.user')->except(['index', 'showLoginForm', 'login', 'showRegistrationForm', 'register']);
     }
 
+    /**
+     * vereficação de usuarios e visualização do menu
+     *
+     * @return void
+     */
     public function index()
     {
         $user = Auth::user();
@@ -27,11 +35,22 @@ class UserController extends Controller
         return view('users.index', compact('user'));
     }
     
+    /**
+     * visualização de registro
+     *
+     * @return void
+     */
     public function showRegistrationForm()
     {
         return view('register');
     }
 
+    /**
+     * registro de novos usuario no banco de dados
+     *
+     * @param Request $request
+     * @return void
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -57,11 +76,22 @@ class UserController extends Controller
         return redirect()->route('products.index')->with('success', 'User registered and logged in successfully!');
     }
 
+    /**
+     * visualização de login
+     *
+     * @return void
+     */
     public function showLoginForm()
     {
         return view('login');
     }
 
+    /**
+     * login de usuarios cadastrados no banco de dados
+     *
+     * @param Request $request
+     * @return void
+     */
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -75,6 +105,12 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * logout do usuario logado
+     *
+     * @param Request $request
+     * @return void
+     */
     public function logout(Request $request)
     {
         Auth::logout();
@@ -86,6 +122,13 @@ class UserController extends Controller
         return redirect()->route('users.showLoginForm');
     }
 
+    /**
+     * adição de fundos na carteira do usuário
+     *
+     * @param Request $request
+     * @param User $user
+     * @return void
+     */
     public function addFunds(Request $request, User $user)
     {
         $request->validate([
@@ -98,7 +141,13 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Funds added successfully!');
     }
 
-    // Método para retirar fundos da carteira do usuário
+    /**
+     * remoção de fundos na carteira do usário
+     *
+     * @param Request $request
+     * @param User $user
+     * @return void
+     */
     public function withdrawFunds(Request $request, User $user)
     {
         $request->validate([
@@ -111,12 +160,25 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Funds withdrawn successfully!');
     }
 
+    /**
+     * visualização de edição de usuario
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function edit($id)
     {
         $user = User::findOrFail($id);
         return view('users.edit', compact('user'));
     }
 
+    /**
+     * ediçao de ususario cadastrado 
+     *
+     * @param Request $request
+     * @param [type] $id
+     * @return void
+     */
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
@@ -139,6 +201,12 @@ class UserController extends Controller
         return redirect()->route('users.edit', $user->id)->with('success', 'User updated successfully.');
     }
 
+    /**
+     * visualizaçõa e confirmação de delete
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function destroy($id)
     {
         $user = User::findOrFail($id);
@@ -150,6 +218,12 @@ class UserController extends Controller
         return view('users.confirm-delete', compact('user'));
     }
 
+    /**
+     * eexecluuir usuarios
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function delete($id)
     {
         $user = User::findOrFail($id);

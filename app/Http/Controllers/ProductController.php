@@ -12,17 +12,33 @@ use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
+    /**
+     * exibição dos produtos
+     *
+     * @return void
+     */
     public function index()
     {
         $products = Product::all();
         return view('index', compact('products'));
     }
 
+    /**
+     * visualização para criar produtos
+     *
+     * @return void
+     */
     public function create()
     {
         return view('create');
     }
 
+    /**
+     * criação de novos produtos 
+     *
+     * @param Request $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -42,6 +58,11 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product added successfully!');
     }
 
+    /**
+     * função de compra
+     *
+     * @return void
+     */
     public function purchase()
     {
         $user = Auth::user();
@@ -54,7 +75,7 @@ class ProductController extends Controller
             foreach ($cartItems as $cartItem) {
                 $product = $cartItem->product;
                 
-                // Create a purchase record
+                // salvar compra no banco de dados
                 Purchase::create([
                     'user_id' => $user->id,
                     'product_id' => $product->id,
@@ -62,16 +83,16 @@ class ProductController extends Controller
                     'total_price' => $product->price * $cartItem->quantity,
                 ]);
 
-                // Update product stock
+                // atualizar estoque
                 $product->stock -= $cartItem->quantity;
                 $product->save();
             }
 
-            // Deduct the total amount from user's wallet
+            // verificação dos fundos da carteira
             $user->wallet -= $total;
             $user->save();
 
-            // Clear the cart
+            // limpar o carrinho
             $user->cartItems()->delete();
 
             return redirect()->route('products.index')->with('success', 'Purchase completed successfully.');
@@ -80,11 +101,24 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('error', 'Insufficient funds in wallet.');
     }
 
+    /**
+     * visualizaçõa para a edição de produtos
+     *
+     * @param Product $product
+     * @return void
+     */
     public function edit(Product $product)
     {
         return view('edit', compact('product'));
     }
 
+    /**
+     * edição de produtos cadastrados no banco de dados
+     *
+     * @param Request $request
+     * @param Product $product
+     * @return void
+     */
     public function update(Request $request, Product $product)
     {
         $request->validate([
@@ -99,6 +133,12 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
+    /**
+     * adição de produtos a lista de favoritos
+     *
+     * @param Product $product
+     * @return void
+     */
     public function addToFavorites(Product $product)
     {
         $user = Auth::user();
@@ -116,8 +156,14 @@ class ProductController extends Controller
         return redirect()->route('favorites.index')->with('success', 'Product added to favorites.');
     }
 
+    /**
+     * remoção de produtos dos favoritos
+     *
+     * @param Product $product
+     * @return void
+     */
     public function removeFromFavorites(Product $product)
-{
+    {
     $user = Auth::user();
 
     // Verifica se o produto está nos favoritos do usuário
@@ -131,8 +177,14 @@ class ProductController extends Controller
     $favorite->delete();
 
     return redirect()->route('favorites.index')->with('success', 'Product removed from favorites.');
-}
+    }
 
+/**
+ * apagar produtos
+ *
+ * @param Product $product
+ * @return void
+ */
     public function destroy(Product $product)
     {
         $product->delete();
