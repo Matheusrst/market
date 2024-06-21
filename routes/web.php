@@ -14,6 +14,7 @@ Route::post('/register', [UserController::class, 'register'])->name('users.regis
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('users.showLoginForm');
 Route::post('/login', [UserController::class, 'login'])->name('users.login');
 
+//rota para usuarios autenficados
 Route::middleware('auth.user')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
 //rotas do menu do usuario
